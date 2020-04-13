@@ -1,11 +1,14 @@
 package cn.xupt.domain;
 
-public class Board {
+/**
+ * 五子棋模型
+ */
+public class GobangModel {
     private double backWidth = 550;     //棋盘背景宽
     private double backHeight = 750;     //棋盘背景高
     private double width = 500;         //棋盘宽
     private int rowTitle = 20;
-    private int peice[][] = new int [20][20];    //存放落子情况
+    private int peice[][] = new int [20][20];    //存放落子情况   0表示黑棋 1表示白棋 2表示无棋子
 
     /**
      * 判断row行有没有五子连珠
@@ -18,9 +21,8 @@ public class Board {
         for (int i = 1; i < rowTitle; i++){
             if (peice[row][i] == who)
                 count++;
-            break;
         }
-        if (count == 5)
+        if (count >= 5)
             return true;
         else
             return false;
@@ -37,9 +39,8 @@ public class Board {
         for (int i = 1; i < rowTitle; i++){
             if (peice[i][col] == who)
                 count++;
-            break;
         }
-        if (count == 5)
+        if (count >= 5)
             return true;
         else
             return false;
@@ -55,14 +56,16 @@ public class Board {
     public boolean judgeMainDiagonal(int row, int col, int who) {
         int count = 1;
         for (int i=row, j=col; i<rowTitle && j<rowTitle; i++, j++){
-            if (peice[i+1][j+1] == who)
-                count++;
-            break;
+            if (i+1 != rowTitle && j+1 != rowTitle){
+                if (peice[i+1][j+1] == who)
+                    count++;
+            }
         }
         for (int i=row, j=col; i>=1 && j>=1; i--, j--){
-            if (peice[i-1][j-1] == who)
-                count++;
-            break;
+            if (i-1 != 0 && j-1 != 0){
+                if (peice[i-1][j-1] == who)
+                    count++;
+            }
         }
         if (count == 5)
             return true;
@@ -80,14 +83,16 @@ public class Board {
     public boolean judgeDeputyDiagonal(int row, int col, int who) {
         int count = 1;
         for (int i=row, j=col; i<rowTitle && j>=1; i++, j--){
-            if (peice[i+1][j-1] == who)
-                count++;
-            break;
+            if (i+1 != rowTitle && j-1 != 0){
+                if (peice[i+1][j-1] == who)
+                    count++;
+            }
         }
         for (int i=row, j=col; i>=1 && j<rowTitle; i--, j++){
-            if (peice[i-1][j+1] == who)
-                count++;
-            break;
+            if (i-1 != 0 && j+1 != rowTitle){
+                if (peice[i-1][j+1] == who)
+                    count++;
+            }
         }
         if (count == 5)
             return true;
@@ -99,23 +104,19 @@ public class Board {
         return backWidth;
     }
 
-    public void setBackWidth(double backWidth) {
-        this.backWidth = backWidth;
-    }
-
     public double getBackHeight() {
         return backHeight;
-    }
-
-    public void setBackHeight(double backHeight) {
-        this.backHeight = backHeight;
     }
 
     public double getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
+    public int[][] getPeice() {
+        return peice;
+    }
+
+    public void setPeice(int[][] peice) {
+        this.peice = peice;
     }
 }
